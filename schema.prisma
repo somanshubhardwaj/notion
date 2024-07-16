@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["reactNative"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./app.db"
+}
+
+// Your data model
+
+
+
+model NotionFile {
+    id        Int    @id @default(autoincrement())
+    coverPhoto String
+    icon       String
+    title     String
+    description String
+    content   String
+    type     String
+    tags     String
+    parentFileId Int?
+     parentFile   NotionFile?   @relation("FileHierarchy", fields: [parentFileId], references: [id], onDelete: Cascade)
+    childFiles NotionFile[] @relation("FileHierarchy")
+    order    Int @default(0)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+}
